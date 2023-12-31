@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='./stylesheets/style.css' />
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <div id="navbar">
+      <div>
+          <a href="#" onclick="reload()">
+              <img src="./images/logo.png" alt="company logo">
+          </a>
+      </div>
+  </div> 
+  
+
+  <main>
+      <div class="cards-container container flex" id="cards-container">
+          
+      </div>
+  </main>
+
+  <template id="template-news-card">
+      <div class="card">
+          <div class="card-header">
+              <img src="https://via.placeholder.com/400x200" alt="news-image" id="news-img">
+          </div>
+          <div class="card-content">
+              <h3 id="news-title">This is the Title</h3>
+              <h6 class="news-source" id="news-source">End Gadget 26/08/2023</h6>
+              <p class="news-desc" id="news-desc">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae saepe quis voluptatum quisquam vitae doloremque facilis molestias quae ratione cumque!</p>
+          </div>
+      </div>
+  </template>
+
+
+  </body>
+  <script src="./javascripts/script.js"></script>
+</html>
