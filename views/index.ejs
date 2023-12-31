@@ -1,102 +1,66 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link rel='stylesheet' href='./stylesheets/style.css' />
-    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
-  </head>
-  <body>
-
-    <script>
-
-
-
-
-const API_KEY = "33b7823ef7b84d3981408bc2f69ffb1f";
-const url = "https://newsapi.org/v2/everything?q=";
-
-window.addEventListener("load", () => fetchNews("Astronomy"));
-
-function reload() 
-{
-    window.location.reload();
-}
-
-async function fetchNews(query) {
-    const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
-    const data = await res.json();
-    bindData(data.articles);
-}
-
-function bindData(articles) {
-    const cardsContainer = document.getElementById("cards-container");
-    const newsCardTemplate = document.getElementById("template-news-card");
-
-    cardsContainer.innerHTML = "";
-
-    articles.forEach((article) => {
-        if (!article.urlToImage) return;
-        const cardClone = newsCardTemplate.content.cloneNode(true);
-        fillDataInCard(cardClone, article);
-        cardsContainer.appendChild(cardClone);
-    });
-}
-
-function fillDataInCard(cardClone, article) {
-    const newsImg = cardClone.querySelector("#news-img");
-    const newsTitle = cardClone.querySelector("#news-title");
-    const newsSource = cardClone.querySelector("#news-source");
-    const newsDesc = cardClone.querySelector("#news-desc");
-
-    newsImg.src = article.urlToImage;
-    newsTitle.innerHTML = article.title;
-    newsDesc.innerHTML = article.description;
-
-    const date = new Date(article.publishedAt).toLocaleString("en-US", {
-        timeZone: "Asia/Jakarta",
-    });
-
-    newsSource.innerHTML = `${article.source.name} · ${date}`;
-
-    cardClone.firstElementChild.addEventListener("click", () => {
-        window.open(article.url, "_blank");
-    });
-}
-
-
-
-
-    </script>
-
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Website</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
 
 <div id="navbar">
-      <div>
-          <a href="#" onclick="reload()">
-              <img src="./images/logo.png" alt="company logo">
-          </a>
-      </div>
-  </div> 
-  
+    <div>
+        <a href="#" onclick="reload()">
+            <img src="/images/logo.png" alt="company logo">
+        </a>
+    </div>
+</div> 
 
-  <main>
-      <div class="cards-container container flex" id="cards-container">
-          
-      </div>
-  </main>
+<main>
+    <div class="cards-container container flex" id="cards-container"></div>
+</main>
 
-  <template id="template-news-card">
-      <div class="card">
-          <div class="card-header">
-              <img src="https://via.placeholder.com/400x200" alt="news-image" id="news-img">
-          </div>
-          <div class="card-content">
-              <h3 id="news-title">This is the Title</h3>
-              <h6 class="news-source" id="news-source">End Gadget 26/08/2023</h6>
-              <p class="news-desc" id="news-desc">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae saepe quis voluptatum quisquam vitae doloremque facilis molestias quae ratione cumque!</p>
-          </div>
-      </div>
-  </template>
+<script>
+    function reload() {
+        window.location.reload();
+    }
 
+    const API_KEY = "33b7823ef7b84d3981408bc2f69ffb1f";
+    const url = "https://newsapi.org/v2/everything?q=";
 
-  </body>
-  <script src="./javascripts/script.js"></script>
+    window.addEventListener("load", () => fetchNews("Astronomy"));
+
+    async function fetchNews(query) {
+        const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
+        const data = await res.json();
+        bindData(data.articles);
+    }
+
+    function bindData(articles) {
+        const cardsContainer = document.getElementById("cards-container");
+
+        articles.forEach((article) => {
+            if (!article.urlToImage) return;
+
+            const card = document.createElement("div");
+            card.className = "card";
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <img src="${article.urlToImage}" alt="news-image" id="news-img">
+                </div>
+                <div class="card-content">
+                    <h3 id="news-title">${article.title}</h3>
+                    <h6 class="news-source" id="news-source">${article.source.name} · ${new Date(article.publishedAt).toLocaleString("en-US", { timeZone: "Asia/Jakarta" })}</h6>
+                    <p class="news-desc" id="news-desc">${article.description}</p>
+                </div>
+            `;
+
+            cardsContainer.appendChild(card);
+        });
+    }
+</script>
+
+</body>
 </html>
