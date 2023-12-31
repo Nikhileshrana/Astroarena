@@ -32,9 +32,18 @@
     window.addEventListener("load", () => fetchNews("Astronomy"));
 
     async function fetchNews(query) {
-        const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
-        const data = await res.json();
-        bindData(data.articles);
+        try {
+            const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
+            const data = await res.json();
+
+            if (data.articles && Array.isArray(data.articles)) {
+                bindData(data.articles);
+            } else {
+                console.error("Invalid data format: articles is not an array or is undefined");
+            }
+        } catch (error) {
+            console.error("Error fetching news:", error);
+        }
     }
 
     function bindData(articles) {
